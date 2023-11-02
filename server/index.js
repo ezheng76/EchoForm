@@ -6,5 +6,9 @@ const app = express()
 
 passport.use(new googleStrategy())
 
+app.get('/', (req, res) => {
+    res.send({hi:"there"})
+})
+
 const PORT = process.env.PORT || 4001
 app.listen(PORT)
