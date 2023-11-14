@@ -23,19 +23,20 @@ passport.use(
         callbackURL: '/auth/google/callback',
         proxy: true
         }, 
-        (accessToken, refreshToken, profile, done) => {
-            User.findOne({googleID: profile.id}).then ((userExist) => {
-                if (userExist){
-                    //user already sign up once, therefore, we don't add the user again to our user collection
-                    //let passport know we are done and no error was found and found a user with profile.id
-                    done(null, userExist)
-                } else {
-                    // this user is signing up for the first time, therefore, we save it to our user collection
-                    new User({ googleID: profile.id}).save().then((user) => {
-                        done(null, user)
-                    })
-                }
-            })
+        async (accessToken, refreshToken, profile, done) => {
+            const userExist = await User.findOne({googleID: profile.id})
+            
+            if (userExist){
+                //user already sign up once, therefore, we don't add the user again to our user collection
+                //let passport know we are done and no error was found and found a user with profile.id
+                return done(null, userExist)
+            } 
+
+            // this user is signing up for the first time, therefore, we save it to our user collection
+            const user = await new User({ googleID: profile.id}).save()
+            done(null, user)
+                
+            
         }
     )
 )
