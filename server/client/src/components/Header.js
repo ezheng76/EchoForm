@@ -25,9 +25,11 @@ class Header extends Component{
 
     render() {
         return (
-            <nav>
-                <div className="nav-wrapper">
-                    <Link to={this.props.auth ? '/surveys' : '/'} className="left brand-logo">
+            <nav className='black text-white'>
+                <div className="nav-wrapper black text-white container">
+
+                    {/* depend on if the user is logged in or not, clicking the logo will redirect to different links */}
+                    <Link to={this.props.auth ? '/surveys' : '/'} className="left brand-logo" style={{marginLeft: '10px'}}>
                         EchoForm
                     </Link>
                     <ul className="right">
